@@ -46,7 +46,14 @@ const App = () => {
   }, [])
 
   const updateWallet = async (accounts:any) => {     /* New */
-    setWallet({ accounts })                          /* New */
+    const balance = formatBalance(await window.ethereum!.request ({
+      method: "eth_getBalance", 
+      params: [accounts[0], "latest"],
+    }))  
+    const chainId = await window.ethereum!.request({
+      method: "eth_chainId", 
+    })
+  setWallet({ accounts })                          /* New */
   }                                                  /* New */
 
   const handleConnect = async () => {                /* New */
