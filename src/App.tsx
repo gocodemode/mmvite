@@ -26,7 +26,23 @@ const App = () => {
       setHasProvider(Boolean(provider))
     }
 
+    if (provider) {
+      const accounts = await window.ethereum.request(
+        { method: 'eth_accounts' }
+      )
+      refreshAccounts(accounts)
+      window.ethereum.on('accountsChanged', refreshAccounts)
+      window.ethereum.on("chainChanged", refreshChain)
+    }
+  }
+
     getProvider()
+
+    return () => {
+      window.ethereum?.removeListener('accountsChanged', refreshAccounts)
+      window.ethereum?.removeListener("chainChanged", refreshChain)
+    }
+
   }, [])
 
   const updateWallet = async (accounts:any) => {     /* New */
