@@ -5,7 +5,7 @@ import detectEthereumProvider from '@metamask/detect-provider'
 
 const App = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null)
-  const initialState = { accounts: [], balance "", chainId: "" }               /* New */
+  const initialState = { accounts: [], balance: "", chainId: "" }               /* New */
   const [wallet, setWallet] = useState(initialState)  /* New */
 
   useEffect(() => {
@@ -24,7 +24,6 @@ const App = () => {
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
       setHasProvider(Boolean(provider))
-    }
 
     if (provider) {
       const accounts = await window.ethereum.request(
@@ -72,9 +71,9 @@ const App = () => {
       
       { wallet.accounts.length > 0 && 
         <>               /* New */
-          <div>Wallet Accounts: { wallet.accounts[0] }</div>
-          <div>Wallet Balance: {updateWallet.balance}</div>
-          <div>Hex ChainId: {updateWallet.chainId}</div>
+          <div>Wallet Accounts: { wallet.accounts[0]}</div>
+          <div>Wallet Balance: {wallet.balance}</div>
+          <div>Hex ChainId: {wallet.chainId}</div>
           <div>Numeric ChainId: {formatChainAsNum(wallet.chainId)}</div>
         </>
       }
