@@ -1,10 +1,11 @@
 import './App.css'
 import { useState, useEffect } from 'react'
+import { formatBalance, formatChainAsNum } from './utils'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 const App = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null)
-  const initialState = { accounts: [] }               /* New */
+  const initialState = { accounts: [], balance "", chainId: "" }               /* New */
   const [wallet, setWallet] = useState(initialState)  /* New */
 
   useEffect(() => {
