@@ -17,6 +17,10 @@ const App = () => {
       }
     }
 
+    const refreshChain = (chainId: any) => {
+      setWallet((wallet) => ({ ...wallet, chainId }))
+    }
+
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
       setHasProvider(Boolean(provider))
