@@ -42,7 +42,6 @@ const App = () => {
       window.ethereum?.removeListener('accountsChanged', refreshAccounts)
       window.ethereum?.removeListener("chainChanged", refreshChain)
     }
-
   }, [])
 
   const updateWallet = async (accounts:any) => {     /* New */
@@ -53,7 +52,7 @@ const App = () => {
     const chainId = await window.ethereum!.request({
       method: "eth_chainId", 
     })
-  setWallet({ accounts })                          /* New */
+  setWallet({ accounts, balance, chainId })                          /* New */
   }                                                  /* New */
 
   const handleConnect = async () => {                /* New */
@@ -65,14 +64,19 @@ const App = () => {
 
   return (
     <div className="App">
-      <div>Injected Provider {hasProvider ? 'DOES' : 'DOES NOT'} Exist</div>
+       <div>Injected Provider {hasProvider ? 'DOES' : 'DOES NOT'} Exist</div>
 
-      { hasProvider &&                               /* Updated */
-        <button onClick={handleConnect}>Connect MetaMask</button>
+      { window.ethereum?.isMetaMask && wallet.accounts.length < 1 && 
+        <button onClick={handleConnect}>Connect MetaMask</button> 
       }
       
-      { wallet.accounts.length > 0 &&                /* New */
-        <div>Wallet Accounts: { wallet.accounts[0] }</div>
+      { wallet.accounts.length > 0 && 
+        <>               /* New */
+          <div>Wallet Accounts: { wallet.accounts[0] }</div>
+          <div>Wallet Balance: {updateWallet.balance}</div>
+          <div>Hex ChainId: {updateWallet.chainId}</div>
+          <div>Numeric ChainId: {formatChainAsNum(wallet.chainId)}</div>
+        </>
       }
     </div>
   )
